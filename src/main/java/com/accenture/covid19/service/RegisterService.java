@@ -1,17 +1,17 @@
 package com.accenture.covid19.service;
 
-import com.accenture.covid19.dto.ResponseDTO;
-import com.accenture.covid19.dto.UserDTO;
+import com.accenture.covid19.dto.SimpleStringResponse;
+import com.accenture.covid19.dto.User;
 import com.accenture.covid19.model.Reservation;
 
 import java.time.LocalDate;
 
 public interface RegisterService {
 
-    ResponseDTO save(UserDTO userDTO);
+    SimpleStringResponse save(User user);
 
-    default void checkUserHasBook(UserDTO userDTO) {
-        checkUserHasBook(userDTO.getUserId(), userDTO.getDate());
+    default void checkUserHasBook(User user) {
+        checkUserHasBook(user.getUserId(), user.getDate());
     }
 
     default void checkUserHasBook(String userId) {
@@ -27,16 +27,16 @@ public interface RegisterService {
 
     Integer findWaitingListNumber(String userId, LocalDate date);
 
-    default Integer findWaitingListNumber(UserDTO userDTO) {
-        return findWaitingListNumber(userDTO.getUserId(), userDTO.getDate());
+    default Integer findWaitingListNumber(User user) {
+        return findWaitingListNumber(user.getUserId(), user.getDate());
     }
 
     default Reservation getBookByUserAndDate(String userId) {
         return getBookByUserAndDate(LocalDate.now(), userId);
     }
 
-    default Reservation getBookByUserAndDate(UserDTO userDTO) {
-        return getBookByUserAndDate(userDTO.getDate(), userDTO.getUserId());
+    default Reservation getBookByUserAndDate(User user) {
+        return getBookByUserAndDate(user.getDate(), user.getUserId());
     }
 
     Reservation getBookByUserAndDate(LocalDate date, String userId);

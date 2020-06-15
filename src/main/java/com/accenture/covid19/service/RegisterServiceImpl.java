@@ -1,7 +1,7 @@
 package com.accenture.covid19.service;
 
-import com.accenture.covid19.dto.ResponseDTO;
-import com.accenture.covid19.dto.UserDTO;
+import com.accenture.covid19.dto.SimpleStringResponse;
+import com.accenture.covid19.dto.User;
 import com.accenture.covid19.exception.AlreadyBookedException;
 import com.accenture.covid19.exception.InvalidDateException;
 import com.accenture.covid19.model.Reservation;
@@ -36,18 +36,18 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public ResponseDTO save(UserDTO userDTO) {
-        checkUserHasBook(userDTO);
-        LocalDate date = userDTO.getDate();
+    public SimpleStringResponse save(User user) {
+        checkUserHasBook(user);
+        LocalDate date = user.getDate();
         checkDateIsValid(date);
 
         BigDecimal currentBook = reservationRepository.getNumberOfPeopleBookedInOffice(date);
         BigDecimal freeCapacity = getActualCapacity().subtract(currentBook);
 
-        Reservation reservation = new Reservation(userDTO, freeCapacity.signum() < 1);
+        Reservation reservation = new Reservation(user, freeCapacity.signum() < 1);
         reservationRepository.save(reservation);
-        Integer number = findWaitingListNumber(userDTO);
-        return new ResponseDTO(number != 0 ? "You are the " + number + ". on the waiting-list" : "Successfully registered ");
+        Integer number = findWaitingListNumber(user);
+        return new SimpleStringResponse(number != 0 ? "You are the " + number + ". on the waiting-list" : "Successfully registered ");
     }
 
     private BigDecimal getActualCapacity() {
@@ -107,14 +107,14 @@ public class RegisterServiceImpl implements RegisterService {
      * @return ResponseDTO.class
      * @throws AlreadyBookedException
      */
-    public ResponseDTO getStatus(String userId) {
+    public SimpleStringResponse getStatus(String userId) {
         int userBooksNumber = reservationRepository.existReservationByUserAndDate(userId, LocalDate.now());
         if (userBooksNumber == 0) {
             throw new AlreadyBookedException("You have not booked for this day yet");
         }
 
         Integer waitingListNumber = findWaitingListNumber(userId);
-        return new ResponseDTO(waitingListNumber != 0 ?
+        return new SimpleStringResponse(waitingListNumber != 0 ?
                 "You are the " + waitingListNumber + ". on the waiting-list"
                 : "You are not on the waiting list ");
     }
@@ -184,8 +184,8 @@ public class RegisterServiceImpl implements RegisterService {
         return reservationRepository.findReservationByUserIdAndBookedDate(date, userId).orElse(null);
     }
 
-    public void deleteBook(UserDTO userDTO) {
-        Reservation reservationByUserAndDate = reservationRepository.findByUserIdAndBookedDate(userDTO.getDate(), userDTO.getUserId()).orElse(null);
+    public void deleteBook(User user) {
+        Reservation reservationByUserAndDate = reservationRepository.findByUserIdAndBookedDate(user.getDate(), user.getUserId()).orElse(null);
         if (isNull(reservationByUserAndDate)) {
             throw new EntityNotFoundException("You have not booked on this day");
         }
@@ -193,7 +193,7 @@ public class RegisterServiceImpl implements RegisterService {
         reservationRepository.save(reservationByUserAndDate);
 
         LocalDate now = LocalDate.now();
-        if (userDTO.getDate().isEqual(now)) {
+        if (user.getDate().isEqual(now)) {
             BigDecimal numberOfPeopleInOffice = reservationRepository.getNumberOfPeopleBookedInOffice(now);
             BigDecimal freeCapacityInOffice = getActualCapacity().subtract(numberOfPeopleInOffice);
             if (freeCapacityInOffice.signum() > 0) {

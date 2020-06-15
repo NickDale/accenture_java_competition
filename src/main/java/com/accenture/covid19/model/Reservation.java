@@ -1,6 +1,6 @@
 package com.accenture.covid19.model;
 
-import com.accenture.covid19.dto.UserDTO;
+import com.accenture.covid19.dto.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,9 +39,9 @@ public class Reservation {
     @Column(name = "on_waiting_list")
     private Boolean onWaitingList = Boolean.FALSE;
 
-    public Reservation(UserDTO userDTO, Boolean onWaitingList) {
-        this.userId = userDTO.getUserId();
-        this.bookedDate = userDTO.getDate();
+    public Reservation(User user, Boolean onWaitingList) {
+        this.userId = user.getUserId();
+        this.bookedDate = user.getDate();
         this.onWaitingList = onWaitingList;
     }
 

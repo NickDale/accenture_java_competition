@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class User {
 
     @JsonProperty("user_id")
     private String userId;
