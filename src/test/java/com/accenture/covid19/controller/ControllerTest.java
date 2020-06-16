@@ -5,11 +5,16 @@ import com.accenture.covid19.model.Reservation;
 import com.accenture.covid19.service.RegisterService;
 import com.accenture.covid19.service.RegisterServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,15 +22,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(AccentureController.class)
+@WebMvcTest(controllers = AccentureController.class)
 @ContextConfiguration(classes = {RegisterServiceImpl.class, Reservation.class})
 public class ControllerTest {
 
@@ -35,18 +44,21 @@ public class ControllerTest {
     @MockBean
     private RegisterService service;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+            .configure(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE, false);
 
     @Test
     public void register() throws Exception {
-        String uri = "/register";
+        String uri = "/rest/register";
         User user = new User();
         user.setUserId("id");
-        user.setDate(LocalDate.of(2020, 6, 15));
+        user.setDate(LocalDate.of(2020, 6, 16));
 
-
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapToJson(user))).andReturn();
+        String input = mapToJson(user);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri).characterEncoding("UTF-8")
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(input)).andReturn();
 
         int status = mvcResult.getResponse().getStatus();
         assertEquals(200, status);
