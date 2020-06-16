@@ -2,15 +2,9 @@ package com.accenture.covid19.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class User {
 
     @JsonProperty("user_id")
@@ -18,4 +12,27 @@ public class User {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
+    public User() {
+    }
+
+    public User(String userId, LocalDate date) {
+        this.userId = userId;
+        this.date = date;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 }

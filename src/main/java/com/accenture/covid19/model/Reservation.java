@@ -1,9 +1,6 @@
 package com.accenture.covid19.model;
 
 import com.accenture.covid19.dto.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
@@ -18,9 +15,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "reservation")
 @Where(clause = "inactive = false")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Reservation {
 
     @Id
@@ -39,10 +33,75 @@ public class Reservation {
     @Column(name = "on_waiting_list")
     private Boolean onWaitingList = Boolean.FALSE;
 
+    public Reservation() {
+    }
+
     public Reservation(User user, Boolean onWaitingList) {
         this.userId = user.getUserId();
         this.bookedDate = user.getDate();
         this.onWaitingList = onWaitingList;
     }
 
+    public Reservation(Integer id, LocalDateTime checkIn, LocalDateTime checkOut, Boolean inactive) {
+        this.id = id;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.inactive = inactive;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public LocalDate getBookedDate() {
+        return bookedDate;
+    }
+
+    public void setBookedDate(LocalDate bookedDate) {
+        this.bookedDate = bookedDate;
+    }
+
+    public LocalDateTime getCheckIn() {
+        return checkIn;
+    }
+
+    public void setCheckIn(LocalDateTime checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public LocalDateTime getCheckOut() {
+        return checkOut;
+    }
+
+    public void setCheckOut(LocalDateTime checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public Boolean getInactive() {
+        return inactive;
+    }
+
+    public void setInactive(Boolean inactive) {
+        this.inactive = inactive;
+    }
+
+    public Boolean getOnWaitingList() {
+        return onWaitingList;
+    }
+
+    public void setOnWaitingList(Boolean onWaitingList) {
+        this.onWaitingList = onWaitingList;
+    }
 }

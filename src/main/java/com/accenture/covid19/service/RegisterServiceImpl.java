@@ -159,7 +159,7 @@ public class RegisterServiceImpl implements RegisterService {
     public void checkOut(String userId) {
         Reservation lastCheckInByUser = getBookByUserAndDate(userId);
         if (isNull(lastCheckInByUser)) {
-            lastCheckInByUser = reservationRepository.findLastCheckInByUser(userId);
+            lastCheckInByUser =findLastCheckInByUser(userId);
             if (isNull(lastCheckInByUser)) {
                 //it should be never happened
                 throw new EntityNotFoundException("Can't find the check in");
@@ -169,6 +169,10 @@ public class RegisterServiceImpl implements RegisterService {
         lastCheckInByUser.setCheckOut(LocalDateTime.now());
         reservationRepository.save(lastCheckInByUser);
         upDateWaitingList();
+    }
+
+    public Reservation findLastCheckInByUser(String userId) {
+        return reservationRepository.findLastCheckInByUser(userId);
     }
 
     private void upDateWaitingList() {

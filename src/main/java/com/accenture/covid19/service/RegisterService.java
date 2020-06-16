@@ -20,6 +20,7 @@ public interface RegisterService {
 
     void checkUserHasBook(String userId, LocalDate date);
 
+    Reservation findLastCheckInByUser(String userId);
 
     default Integer findWaitingListNumber(String userId) {
         return findWaitingListNumber(userId, LocalDate.now());
