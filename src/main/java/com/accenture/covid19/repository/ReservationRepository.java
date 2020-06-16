@@ -47,7 +47,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     @Query("SELECT COUNT(r) FROM Reservation r WHERE r.onWaitingList = FALSE AND r.checkOut IS NULL")
     BigDecimal getNumberOfPeopleBookedInOffice(@Param("date") LocalDate date);
 
-    @Query(value = "SELECT r.* FROM rook r WHERE r.user_id =?1 AND r.on_waiting_list = FALSE AND r.check_in IS NOT NULL " +
-            "AND r.check_out IS NULL ORDER BY r.id  LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM Reservation WHERE user_id =?1 AND on_waiting_list = FALSE AND check_in IS NOT NULL " +
+            "AND check_out IS NULL ORDER BY check_in DESC  LIMIT 1", nativeQuery = true)
     Reservation findLastCheckInByUser(String userId);
 }
