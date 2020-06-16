@@ -159,7 +159,7 @@ public class RegisterServiceImpl implements RegisterService {
     public void checkOut(String userId) {
         Reservation lastCheckInByUser = getBookByUserAndDate(userId);
         if (isNull(lastCheckInByUser)) {
-            lastCheckInByUser =findLastCheckInByUser(userId);
+            lastCheckInByUser = findLastCheckInByUser(userId);
             if (isNull(lastCheckInByUser)) {
                 //it should be never happened
                 throw new EntityNotFoundException("Can't find the check in");

@@ -1,0 +1,507 @@
+{
+	"info": {
+		"_postman_id": "3cef6da7-f564-4bc0-9352-d5c2bd5e46f0",
+		"name": "accenture",
+		"description": "Rest interface tests.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5ee6719d-ab9f-4ed9-ae9c-b1b5bca9a782",
+						"exec": [
+							"pm.globals.set(\"count\", 1);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fad253e2-0bbd-47b6-a03e-b40f448450dd",
+						"exec": [
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.to.be.ok;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"user1\",\r\n    \"date\": \"{{date}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Automated",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dc910e54-55c2-4173-aa02-4fb0daafae80",
+						"exec": [
+							"var count = pm.globals.get(\"count\");\r",
+							"count = count + 1\r",
+							"var user = \"user\" + count;\r",
+							"pm.globals.set(\"user\", user);\r",
+							"pm.globals.set(\"count\", count);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c77f2cf-e429-44a3-bdb4-671ce07aba35",
+						"exec": [
+							"if (pm.globals.get(\"count\") <= 10) {\r",
+							"    postman.setNextRequest(\"Register Automated\");\r",
+							"}\r",
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.to.be.ok;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"{{user}}\",\r\n    \"date\": \"{{date}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "66e78085-9966-45ee-bda1-660c4b0b665c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "151636d6-54d5-4ce5-b643-5cc81f4bee84",
+						"exec": [
+							"pm.test(\"Response must be conflict\", function() {\r",
+							"    pm.response.to.have.status(409);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"{{user}}\",\r\n    \"date\": \"{{date}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Automated Second Round",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "739e0f6e-fb81-4647-afdb-cd8e0b1b74a8",
+						"exec": [
+							"var count = pm.globals.get(\"count\");\r",
+							"count = count + 1\r",
+							"var user = \"user\" + count;\r",
+							"pm.globals.set(\"user\", user);\r",
+							"pm.globals.set(\"count\", count);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e05e737c-551f-4434-8a4e-1af18d75fcc5",
+						"exec": [
+							"if (pm.globals.get(\"count\") <= 25) {\r",
+							"    postman.setNextRequest(\"Register Automated Second Round\");\r",
+							"}\r",
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.to.be.ok;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"{{user}}\",\r\n    \"date\": \"{{date}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dad0bb50-2042-492f-a0f8-c0bf558544d8",
+						"exec": [
+							"var count = pm.globals.get(\"count\");\r",
+							"count = count + 1\r",
+							"var user = \"user\" + count;\r",
+							"pm.globals.set(\"user\", user);\r",
+							"pm.globals.set(\"count\", count);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c03cb961-40fe-452b-9891-97f1f35dec2b",
+						"exec": [
+							"var responseString = \"You are the 26. on the waiting-list\";\r",
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.json().response == responseString;\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"{{user}}\",\r\n    \"date\": \"{{date}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ad385a8-8afc-4be1-bba1-79f48b81df68",
+						"exec": [
+							"var responseString = \"You are the 26. on the waiting-list\";\r",
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.json().response == responseString;\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/status/user26",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"status",
+						"user26"
+					]
+				},
+				"description": "Status request"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1c5ea869-f9c1-4040-b7f6-d8ce1e150873",
+						"exec": [
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.to.be.ok;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"user10\",\r\n    \"date\": \"{{date}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register/delete",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9baa3fa5-3fab-4de8-9727-9fddba84dc23",
+						"exec": [
+							"var responseString = \"You are the 25. on the waiting-list\";\r",
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.json().response == responseString;\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/status/user26",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"status",
+						"user26"
+					]
+				},
+				"description": "Status request"
+			},
+			"response": []
+		},
+		{
+			"name": "Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "532ce00e-4f68-4631-8978-6f19fb38316f",
+						"exec": [
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/entry/user26",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"entry",
+						"user26"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6385621f-ae29-444e-b9ba-56bbdd0ff4a8",
+						"exec": [
+							"pm.test(\"Response must be ok\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/exit/user26",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"exit",
+						"user26"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
